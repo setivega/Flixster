@@ -1,19 +1,25 @@
 package com.example.flixster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.flixster.models.Movie;
 
 import org.parceler.Parcels;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -73,4 +79,5 @@ public class DetailActivity extends AppCompatActivity {
                 .into(backdropImageView);
 
     }
+
 }
