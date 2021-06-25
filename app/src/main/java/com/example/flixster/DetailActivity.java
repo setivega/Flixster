@@ -1,7 +1,6 @@
 package com.example.flixster;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,19 +8,19 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.flixster.models.Movie;
 
 import org.parceler.Parcels;
 
 import android.view.View.OnClickListener;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -34,7 +33,8 @@ public class DetailActivity extends AppCompatActivity {
     TextView releaseTextView;
     TextView overviewTextView;
     RatingBar movieRatingBar;
-    ImageView backdropImageView;
+    ImageView trailerImageView;
+    ImageButton playImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +45,16 @@ public class DetailActivity extends AppCompatActivity {
         titleTextView = findViewById(R.id.titleTextView);
         overviewTextView = findViewById(R.id.overviewTextView);
         movieRatingBar = findViewById(R.id.movieRatingBar);
-        backdropImageView = findViewById(R.id.imageView2);
+        trailerImageView = findViewById(R.id.trailerImageView);
         releaseTextView = findViewById(R.id.releaseTextView);
+        playImageButton = findViewById(R.id.playImageButton);
 
 
         // unwrap movie serialized on creation of detail activity
         movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
         Log.d("DetailActivity", String.format("Showing details for '%s'", movie.getTitle()));
 
-        backdropImageView.setOnClickListener(new OnClickListener() {
+        playImageButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // create the new activity
@@ -80,7 +81,7 @@ public class DetailActivity extends AppCompatActivity {
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             imageUrl = movie.getBackdropPath();
             placeholder = R.drawable.flicks_backdrop_placeholder;
-            context = backdropImageView.getContext();
+            context = trailerImageView.getContext();
         } else {
             imageUrl = movie.getPosterPath();
             placeholder = R.drawable.flicks_movie_placeholder;
@@ -89,11 +90,13 @@ public class DetailActivity extends AppCompatActivity {
 
         Glide.with(context).load(imageUrl)
                 .placeholder(placeholder)
+                .transform(new CenterCrop(), new RoundedCorners(16))
                 .into(posterImageView);
 
-        Glide.with(backdropImageView.getContext()).load(movie.getBackdropPath())
+        Glide.with(trailerImageView.getContext()).load(movie.getBackdropPath())
                 .placeholder(R.drawable.flicks_backdrop_placeholder)
-                .into(backdropImageView);
+                .transform(new CenterCrop(), new RoundedCorners(16))
+                .into(trailerImageView);
 
     }
 

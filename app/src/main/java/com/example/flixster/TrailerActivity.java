@@ -74,6 +74,7 @@ public class TrailerActivity extends YouTubeBaseActivity {
                 if (trailerKey != null) {
                     Log.d(TAG, "Trailer Key: " + trailerKey);
                     youTubePlayer.cueVideo(trailerKey);
+                    youTubePlayer.setFullscreen(true);
                 }
             }
 

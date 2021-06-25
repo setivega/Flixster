@@ -37,7 +37,7 @@
         <ImageView
             android:id="@+id/posterImageView"
             android:layout_width="120dp"
-            android:layout_height="wrap_content"
+            android:layout_height="180dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:contentDescription="@null"
@@ -85,7 +85,7 @@
             tools:text="2021-05-26" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/trailerImageView"
             android:layout_width="350dp"
             android:layout_height="207dp"
             android:layout_marginStart="15dp"
@@ -96,6 +96,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/overviewTextView"
             tools:src="@tools:sample/avatars" />
+
+        <ImageButton
+            android:id="@+id/playImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#D32E2E"
+            android:contentDescription="@null"
+            app:layout_constraintBottom_toBottomOf="@+id/trailerImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/trailerImageView"
+            app:srcCompat="@android:drawable/ic_media_play" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
