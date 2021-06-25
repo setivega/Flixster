@@ -2,6 +2,7 @@ package com.example.flixster;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -23,9 +24,10 @@ import okhttp3.Headers;
 
 public class TrailerActivity extends YouTubeBaseActivity {
 
-    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/337404/videos?api_key=0ec117989bb0ab0cca419bdc1adad681";
-    public static final String TAG = "Trailer Activity";
 
+    public static final String TAG = "TrailerActivity";
+
+    String MOVIE_URL;
     String trailerKey;
 
     @Override
@@ -33,29 +35,16 @@ public class TrailerActivity extends YouTubeBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trailer);
 
-        final String videoId = "tKodtNFpzBA";
+        Integer movieID = getIntent().getExtras().getInt(DetailActivity.MOVIE_ID);
 
-        YouTubePlayerView playerView = (YouTubePlayerView) findViewById(R.id.player);
-
-        playerView.initialize(getString(R.string.youtube_api_key), new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                youTubePlayer.cueVideo(videoId);
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                Log.e("TrailerActivity", "Error initializing YouTube player");
-            }
-        });
-
-        getMovieTrailer();
-
-    }
-
-    private void getMovieTrailer() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
+        Log.d(TAG, "Movie ID: " + movieID);
+
+        MOVIE_URL = String.format("https://api.themoviedb.org/3/movie/%s/videos?api_key=0ec117989bb0ab0cca419bdc1adad681", movieID);
+
+        Log.d(TAG, MOVIE_URL);
+
+        client.get(MOVIE_URL, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
@@ -64,7 +53,7 @@ public class TrailerActivity extends YouTubeBaseActivity {
                     JSONArray results = jsonObject.getJSONArray("results");
                     JSONObject trailer = results.getJSONObject(0);
                     trailerKey = trailer.getString("key");
-                    Log.i(TAG, "Key: " + trailerKey);
+                    Log.d(TAG, "Inside Key: " + trailerKey);
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit JSON Exception ", e);
                 }
@@ -74,6 +63,23 @@ public class TrailerActivity extends YouTubeBaseActivity {
             @Override
             public void onFailure(int i, Headers headers, String s, Throwable throwable) {
                 Log.d(TAG, "onFailure");
+            }
+        });
+
+        YouTubePlayerView playerView = (YouTubePlayerView) findViewById(R.id.player);
+
+        playerView.initialize(getString(R.string.youtube_api_key), new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                if (trailerKey != null) {
+                    Log.d(TAG, "Trailer Key: " + trailerKey);
+                    youTubePlayer.cueVideo(trailerKey);
+                }
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Log.e("TrailerActivity", "Error initializing YouTube player");
             }
         });
     }

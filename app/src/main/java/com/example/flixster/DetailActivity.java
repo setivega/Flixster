@@ -19,9 +19,13 @@ import com.example.flixster.models.Movie;
 
 import org.parceler.Parcels;
 
+import android.view.View.OnClickListener;
+
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class DetailActivity extends AppCompatActivity {
+
+    public static final String MOVIE_ID = "movieId";
 
     Movie movie;
 
@@ -48,6 +52,19 @@ public class DetailActivity extends AppCompatActivity {
         // unwrap movie serialized on creation of detail activity
         movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
         Log.d("DetailActivity", String.format("Showing details for '%s'", movie.getTitle()));
+
+        backdropImageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // create the new activity
+                Intent trailer = new Intent(DetailActivity.this, TrailerActivity.class);
+                // pass the data being edited
+                trailer.putExtra(MOVIE_ID, movie.getMovieId());
+                Log.d("DetailActivity", "Movie ID: " + movie.getMovieId());
+                // display the edit activity
+                startActivity(trailer);
+            }
+        });
 
         titleTextView.setText(movie.getTitle());
         overviewTextView.setText(movie.getOverview());
