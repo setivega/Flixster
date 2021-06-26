@@ -37,7 +37,7 @@ public class Movie {
             movies.add(new Movie(movieJsonArray.getJSONObject(i)));
         }
         return movies;
-    };
+    }
 
     public String getPosterPath() {
         return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
@@ -60,6 +60,5 @@ public class Movie {
     public Double getVoteAverage() { return voteAverage; }
 
     public Integer getMovieId() { return movieId; }
-
 
 }

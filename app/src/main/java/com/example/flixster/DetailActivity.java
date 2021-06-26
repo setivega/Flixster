@@ -41,6 +41,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        // Setting our variables equal to their xml counterparts
         posterImageView = findViewById(R.id.posterImageView);
         titleTextView = findViewById(R.id.titleTextView);
         overviewTextView = findViewById(R.id.overviewTextView);
@@ -78,6 +79,7 @@ public class DetailActivity extends AppCompatActivity {
         int placeholder;
         Context context;
 
+        // Determining if the current layout is portrait or landscape to figure out which image we will show
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             imageUrl = movie.getBackdropPath();
             placeholder = R.drawable.flicks_backdrop_placeholder;

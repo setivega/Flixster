@@ -3,7 +3,6 @@ package com.example.flixster.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,17 +24,11 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
-    public interface OnClickListener {
-        void onTaskClicked(int position);
-    }
-
     Context context;
     List<Movie> movies;
-    OnClickListener clickListener;
 
     public MovieAdapter(Context context, List<Movie> movies) {
         this.context = context;
@@ -97,6 +90,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             }
         }
 
+        // Binding the movie objects to the created cells when scrolling
         public void bind(Movie movie) {
             titleTextView.setText(movie.getTitle());
             overviewTextView.setText(movie.getOverview());
